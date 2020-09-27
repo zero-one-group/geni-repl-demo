@@ -1,9 +1,7 @@
 (ns final
   (:require
     [zero-one.geni.core :as g]
-    [zero-one.geni.ml :as ml]
-    [zero-one.geni.rdd :as rdd]
-    [zero-one.geni.streaming :as streaming]))
+    [zero-one.geni.ml :as ml]))
 
 (def invoices
   (g/->kebab-columns (g/read-csv! "data/online_retail_ii")))
@@ -50,4 +48,4 @@
 (def als-model
   (last (ml/stages als-pipeline-model)))
 
-(ml/recommend-items als-model 3)
+(g/collect (ml/recommend-items als-model 3))
